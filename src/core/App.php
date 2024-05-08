@@ -13,11 +13,12 @@ class App
         $url = $this->UrlProcess();
 
         // Xu ly Controller
-        if(file_exists("./src/controllers/".$url[0].".php")){
-            $this->controller=$url[0];
-            unset($url[0]);
-        }
-        require_once "./src/controllers/".$this->controller.".php";
+        if(isset($url[0])){
+            if(file_exists("./src/controllers/".$url[0].".php")){
+                $this->controller=$url[0];
+                // unset($url[0]); D:\laragon\www\mvc-with-php\src\controllers\Home.php
+            }     
+        }require_once "./src/controllers/".$this->controller.".php";
 
         // Xu ly Action
         if (isset($url[1])) {
@@ -29,13 +30,8 @@ class App
 
         // Xu ly Params
         $this->params=$url?array_values($url):[];
-
-        echo "control=".$this->controller."</br>  action=".$this->action." </br> ";
-        print_r($this->params);
-
-        // Goi
-        call_user_func_array(array($this->controller, $this->action), $this->params);
-
+        
+        call_user_func_array([new $this->controller,$this->action],$this->params);
     }
 
     function UrlProcess()

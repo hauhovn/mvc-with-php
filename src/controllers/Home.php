@@ -1,9 +1,8 @@
-Home Crtl
 <?php 
     class Home {
         function SayHi()
         {
-        echo "hi";
+        echo "hello ";
         }
 
         function Search(){
