@@ -1,7 +1,7 @@
 <?php 
     class Ingredient extends Controller{
         
-        function Get(){
+        function Select(){
             // Call models
             $ingredients = $this->Model("IngredientModel");
 

@@ -10,7 +10,10 @@ class App
 
     function __construct()
     {
-        $url = $this->UrlProcess();
+        $url="";
+        if(isset($_GET['url'])){
+            $url = $this->UrlProcess($_GET['url']);
+        }
 
         // Xu ly Controller
         if (isset($url[0])) {
@@ -39,22 +42,19 @@ class App
 
         // LOGs
         // echo "controller=".$this->controller."</br>action=".$this->action."</br>params=";
-        print_r($this->params);
+        // print_r($this->params);
 
         // Call func goi Controller-A vs Params
         call_user_func_array([new $this->controller, $this->action], $this->params);
     }
 
-    function UrlProcess()
+    function UrlProcess($url)
     {
-        if (isset($_GET['url'])) {
             //Xu ly chuoi
-            $trimUrl = trim($_GET['url']);
+            $trimUrl = trim($url);
             $vardUrl = filter_var($trimUrl, FILTER_VALIDATE_DOMAIN);
             // Cat chuoi
             return explode("/", $vardUrl);
-
-        }
     }
 }
 ?>
