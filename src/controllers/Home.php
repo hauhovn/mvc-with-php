@@ -1,12 +1,17 @@
 <?php 
-    class Home {
+    class Home extends Controller{
         function SayHi()
         {
         echo "hello ";
         }
 
-        function Search(){
-            echo "Search";
+        function Search($s){
+            echo "Search: ".$s;
+        }
+
+        function Menu(){
+            $menu = $this->Model("MenuModel");
+            echo $menu->get();
         }
 
     }
