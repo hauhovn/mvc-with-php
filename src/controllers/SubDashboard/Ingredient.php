@@ -1,15 +1,19 @@
 <?php 
     class Ingredient extends Controller{
         
-        function Select(){
+        function get_ingredients(...$params){
             // Call models
-            $ingredients = $this->Model("IngredientModel");
+            $ingredients = $this->model("IngredientModel");
+
+            $filter = "new";
+            $limit = 15;
 
             // Call views
-            $this->View("dashboard-layout",[
+            $this->view("dashboard-layout",[
                 "title"=>"Nguyên liệu",
                 "page"=>"ingredients",
-                "ingredients"=>$ingredients->get()
+                "ingredients"=>
+                $ingredients->get(array("filter"=>$filter,"limit"=>$limit))
             ]);
         }
 
