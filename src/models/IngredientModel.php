@@ -1,39 +1,41 @@
 <?php 
 class IngredientModel extends DB{
 
+    public $id;
+    public $name;
+    public $price;
+    public $unit;
+    public $created_at;
+
+
+    public function __construct($id = null, $name = null, $price = null, $unit = null, $created_at = null) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->price = $price;
+        $this->unit = $unit;
+        $this->created_at = $created_at;
+    }
+
     public function get($params){
-        //set default
-        $filter="";$limit = 5;print_r($params);
-        
-        //set filter
-        if(isset($params['filter'])){
-            switch($params['filter']){
-                case "new":
-                    $filter="ORDER by created_at DESC";
-                break;
-            }
-        }
-        //set limit
-        if(isset($params['limit'])){
-            $limit=$params['limit'];
-        }
-
-        //sql
+        // Khởi tạo mảng kết quả
         $data = array();
-        $query = "SELECT * FROM ingredients ".$filter." LIMIT ".$limit;
-        echo $query;
-        $result = mysqli_query( $this->conn, $query );
-        if($result){
-            while ($row = $result->fetch_assoc())
-            {
-                $data['id'] = $row['id'] ;  
-                $data['name'] = $row['name'] ;  
-                $data['price'] = $row['price'] ;  
-                $data['unit'] = $row['unit'] ;  
-                $data['created_at'] = $row['created_at'] ;  
+        
+        // Thiết lập filter và limit từ tham số
+        $filter = (isset($params['filter']) && $params['filter'] == "new") ? "ORDER BY created_at DESC" : "";
+        $limit = isset($params['limit']) ? $params['limit'] : 5;
+
+        // Thực hiện truy vấn SQL
+        $query = "SELECT * FROM ingredients $filter LIMIT $limit";
+        $result = mysqli_query($this->conn, $query);
+
+        // Kiểm tra kết quả truy vấn và lặp qua dữ liệu
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                // Thêm dữ liệu vào mảng
+                $data[] = $row;
             }
         }
-
+        // Trả về mảng kết quả
         return $data;
     }
 }
